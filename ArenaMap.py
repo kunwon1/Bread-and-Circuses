@@ -2,7 +2,8 @@ import random
 
 from ArenaCell import ArenaCell
 from ArenaRoom import ArenaRoom
-from ArenaCorridor import ArenaCorridor,CorridorException
+from ArenaCorridor import ArenaCorridor
+from Exceptions import *
 
 class ArenaMap(object):
 
@@ -27,7 +28,7 @@ class ArenaMap(object):
             RootX = random.randint(1,self.ArenaX)
             RootY = random.randint(1,self.ArenaY)
             try:
-                r = ArenaRoom(self.RawGrid[RootX][RootY])
+                r = ArenaRoom(self.RawGrid[RootY][RootX])
             except IndexError:
                 continue
             ret = r.Paint(self.RawGrid)
