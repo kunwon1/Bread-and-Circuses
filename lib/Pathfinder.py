@@ -22,7 +22,7 @@ def Neighbors(X,Y,RawGrid=None,RequirePassable=False):
     if RequirePassable:
         if RawGrid is None:
             raise PathfinderException
-        N = [P for P in N if RawGrid[P['Y']][P['X']].IsPassable]
+        N = [P for P in N if RawGrid[P['Y']][P['X']].IsPassable()]
     return N
 
 def Distance(aX,aY,bX,bY):
@@ -35,7 +35,7 @@ class Pathfinder(object):
         self.debug = debug
 
     def path(self,aX,aY,bX,bY):
-        if not (self.RawGrid[aY][aX].IsPassable and self.RawGrid[bY][bX].IsPassable):
+        if not (self.RawGrid[aY][aX].IsPassable() and self.RawGrid[bY][bX].IsPassable()):
             raise PathfinderException
 
         Finished = False
