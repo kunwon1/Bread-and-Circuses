@@ -33,7 +33,7 @@ class CorridorVal(object):
         if self.num > dest.num:
             return self.num - 1
         if self.num == dest.num:
-            raise CorridorDoneEception
+            raise CorridorDoneException
 
 
 class ArenaCorridor(object):
@@ -63,7 +63,7 @@ class ArenaCorridor(object):
                     aX = CorridorVal(aX.Approach(bX))
                     RawGrid[aY][aX].TileSymbol = '.'
                     RawGrid[aY][oldX].TileSymbol = '.'
-                except CorridorDoneEception:
+                except CorridorDoneException:
                     xDone = True
             while yDone == False:
                 try:
@@ -71,7 +71,7 @@ class ArenaCorridor(object):
                     aY = CorridorVal(aY.Approach(bY))
                     RawGrid[aY][aX].TileSymbol = '.'
                     RawGrid[oldY][aX].TileSymbol = '.'
-                except CorridorDoneEception:
+                except CorridorDoneException:
                     yDone = True
 
         else:
@@ -81,7 +81,7 @@ class ArenaCorridor(object):
                     aY = CorridorVal(aY.Approach(bY))
                     RawGrid[aY][aX].TileSymbol = '.'
                     RawGrid[oldY][aX].TileSymbol = '.'
-                except CorridorDoneEception:
+                except CorridorDoneException:
                     yDone = True
              while xDone == False:
                 try:
@@ -89,7 +89,7 @@ class ArenaCorridor(object):
                     aX = CorridorVal(aX.Approach(bX))
                     RawGrid[aY][aX].TileSymbol = '.'
                     RawGrid[aY][oldX].TileSymbol = '.'
-                except CorridorDoneEception:
+                except CorridorDoneException:
                     xDone = True
   
            
