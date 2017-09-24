@@ -65,8 +65,9 @@ class Pathfinder(object):
             if not Q:
                 if self.debug:
                     print('No path available, recycling')
-                if Iterations > 40000:
-                    print('Took too long, bailing')
+                if Iterations > 1000:
+                    if self.debug:
+                        print('Took too long, bailing')
                     raise PathNotFoundException
                 Q = OldQ
                 V = []

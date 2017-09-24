@@ -4,6 +4,7 @@ from ArenaCell import ArenaCell
 from ArenaRoom import ArenaRoom
 from ArenaCorridor import ArenaCorridor
 from Exceptions import *
+from lib import Pathfinder
 
 class ArenaMap(object):
 
@@ -45,6 +46,14 @@ class ArenaMap(object):
 
                 corA = Room.RandomCellAddress()
                 corB = OtherRoom.RandomCellAddress()
+
+                try:
+                    finder = Pathfinder.Pathfinder(self.RawGrid)
+                    finder.path(corA[0],corA[1],corB[0],corB[1])
+                except PathNotFoundException:
+                    pass
+                else:
+                    continue
                 
                 CorridorTries = 0
                 CorridorMade = False
