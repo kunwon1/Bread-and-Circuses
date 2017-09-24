@@ -6,7 +6,7 @@ from ArenaCorridor import ArenaCorridor,CorridorException
 
 class ArenaMap(object):
 
-    def __init__(self,myX=30,myY=30):
+    def __init__(self,myX=40,myY=40):
 
         self.ArenaX = myX
         self.ArenaY = myY
@@ -22,7 +22,7 @@ class ArenaMap(object):
 
         MaxCorridorTries = 300
 
-        while RoomTries < MaxRoomTries and RoomsMade < 2:
+        while RoomTries < MaxRoomTries and RoomsMade < 4:
             RoomTries = RoomTries + 1
             RootX = random.randint(1,self.ArenaX)
             RootY = random.randint(1,self.ArenaY)
@@ -55,6 +55,7 @@ class ArenaMap(object):
                         continue
                     Room.ConnectedRooms.append(OtherRoom)
                     OtherRoom.ConnectedRooms.append(Room)
+                    CorridorMade = True
 
                     self.Corridors.append(cor)
 

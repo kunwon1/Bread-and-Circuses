@@ -18,7 +18,7 @@ class ArenaRoom(object):
         self.ConnectedRooms = []
 
     def __eq__(self, other):
-        return self.__dict__ == other.__dict__
+        return self.StartX == other.StartX and self.StartY == other.StartY
 
     def RandomCellAddress(self):
         rX = random.randint(self.StartX,self.EndX)
@@ -31,25 +31,25 @@ class ArenaRoom(object):
         if self.EndY >= len(RawGrid) or self.EndX >= len(RawGrid[self.EndY]):
             return self.ARENA_OUT_OF_BOUNDS
 
-        print('drawing %s,%s to %s,%s' % (self.StartX,self.StartY,self.StartX+self.RoomX,self.StartY+self.RoomY))
+        #print('drawing %s,%s to %s,%s' % (self.StartX,self.StartY,self.StartX+self.RoomX,self.StartY+self.RoomY))
         
         for y in range(self.StartY,self.StartY + self.RoomY):
             for x in range(self.StartX,self.StartX + self.RoomX):
                 if RawGrid[y][x].TileSymbol != '#':
-                    print('nevermind, bad room')
+                    #print('nevermind, bad room')
                     return self.ARENA_OUT_OF_BOUNDS
                 if RawGrid[y+1][x+1].TileSymbol != '#':
-                    print('nevermind, bad room')
+                    #print('nevermind, bad room')
                     return self.ARENA_OUT_OF_BOUNDS
                 if RawGrid[y-1][x-1].TileSymbol != '#':
-                    print('nevermind, bad room')
+                    #print('nevermind, bad room')
                     return self.ARENA_OUT_OF_BOUNDS
 
         for y in range(self.StartY,self.StartY + self.RoomY):
             for x in range(self.StartX,self.StartX + self.RoomX):
                 RawGrid[y][x].TileSymbol = '.'
  
-        print('yep, good room')
+        #print('yep, good room')
         return self.ROOM_OK
 
 

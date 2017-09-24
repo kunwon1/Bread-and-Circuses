@@ -20,6 +20,18 @@ class CorridorVal(object):
     def __str__(self):
         return str(self.num)
 
+    def __add__(self,other):
+        return CorridorVal(self.num + other)
+
+    def __sub__(self,other):
+        return CorridorVal(self.num - other)
+    
+    def __le__(self,other):
+        return self.num <= other
+
+    def __ge__(self,other):
+        return self.num >= other
+
     def Approach(self,dest):
         if self.num < dest.num:
             return self.num + 1
@@ -37,6 +49,13 @@ class ArenaCorridor(object):
         bX = CorridorVal(EndCell[0])
         bY = CorridorVal(EndCell[1])
 
+        for y in (aY, bY):
+            for x in (aX, bX):
+                if y+1 >= len(RawGrid) or y-1 <= 1:
+                    raise CorridorException
+                if x+1 >= len(RawGrid[y]) or x-1 <= 1:
+                    raise CorridorException
+
         r = random.randint(1,2)
 
         xDone = False
@@ -45,28 +64,36 @@ class ArenaCorridor(object):
         if r == 1:
             while xDone == False:
                 try:
+                    oldX = aX
                     aX = CorridorVal(aX.Approach(bX))
                     RawGrid[aY][aX].TileSymbol = '.'
+                    RawGrid[aY][oldX].TileSymbol = '.'
                 except CorridorValException:
                     xDone = True
             while yDone == False:
                 try:
+                    oldY = aY
                     aY = CorridorVal(aY.Approach(bY))
                     RawGrid[aY][aX].TileSymbol = '.'
+                    RawGrid[oldY][aX].TileSymbol = '.'
                 except CorridorValException:
                     yDone = True
 
         else:
              while yDone == False:
                 try:
+                    oldY = aY
                     aY = CorridorVal(aY.Approach(bY))
                     RawGrid[aY][aX].TileSymbol = '.'
+                    RawGrid[oldY][aX].TileSymbol = '.'
                 except CorridorValException:
                     yDone = True
              while xDone == False:
                 try:
+                    oldX = aX
                     aX = CorridorVal(aX.Approach(bX))
                     RawGrid[aY][aX].TileSymbol = '.'
+                    RawGrid[aY][oldX].TileSymbol = '.'
                 except CorridorValException:
                     xDone = True
   
