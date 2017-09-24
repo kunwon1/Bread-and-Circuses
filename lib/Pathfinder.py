@@ -39,6 +39,7 @@ class Pathfinder(object):
             raise PathfinderException
 
         Finished = False
+        Iterations = 0
 
         Q = [] #node queue
         V = [] #visited nodes
@@ -53,16 +54,22 @@ class Pathfinder(object):
         Cur = Start
 
         while not Finished:
+            Iterations = Iterations + 1
             V.append(Cur)
             if self.debug:
                 if not Cur == Start:
                     self.RawGrid[Cur['Y']][Cur['X']].TileSymbol = '*'
             Q = Neighbors(Cur['X'],Cur['Y'],self.RawGrid,RequirePassable=True)
+            OldQ = Q
             Q = [P for P in Q if P not in V] #remove visited nodes from node queue
             if not Q:
                 if self.debug:
-                    print('No path available')
-                raise PathNotFoundException
+                    print('No path available, recycling')
+                if Iterations > 40000:
+                    print('Took too long, bailing')
+                    raise PathNotFoundException
+                Q = OldQ
+                V = []
             BestChoice = ShortestDistance(bX,bY,Q)
             if BestChoice == Goal:
                 if self.debug:
@@ -71,7 +78,8 @@ class Pathfinder(object):
                 break
             Cur = BestChoice
             if self.debug:
-                print('Now evaluating %s,%s' % (Cur['X'],Cur['Y']))
+                pass
+                #print('Now evaluating %s,%s' % (Cur['X'],Cur['Y']))
 
 
 
