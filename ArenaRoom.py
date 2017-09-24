@@ -9,8 +9,8 @@ class ArenaRoom(object):
         self.RoomX = random.randint(6,20)
         self.RoomY = random.randint(6,20)
 
-        self.StartX = StartCell.MapX
-        self.StartY = StartCell.MapY
+        self.StartX = StartCell.X
+        self.StartY = StartCell.Y
         self.EndX = self.StartX + self.RoomX
         self.EndY = self.StartY + self.RoomY
 

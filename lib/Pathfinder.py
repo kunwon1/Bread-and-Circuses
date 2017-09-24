@@ -5,13 +5,13 @@ def ShortestDistance(aX,aY,Points):
     Shortest = {'d': 99999}
     for P in Points:
         d = Distance(aX,aY,P['X'],P['Y'])
-        Sorted['d'] = d
-        Sorted.extend(P)
+        P['d'] = d
+        Sorted.append(P)
     for S in Sorted:
         if S['d'] < Shortest['d']:
-            del Shortest[:]
-            Shortest.append(S)
-    return (Shortest['X'],Shortest['Y'])
+            Shortest = S
+    Shortest.pop('d', None)
+    return Shortest
 
 def Neighbors(X,Y,RawGrid=None,RequirePassable=False):
     N = []
@@ -30,8 +30,9 @@ def Distance(aX,aY,bX,bY):
 
 class Pathfinder(object):
 
-    def __init__(self,RawGrid):
+    def __init__(self,RawGrid,debug=False):
         self.RawGrid = RawGrid
+        self.debug = debug
 
     def path(self,aX,aY,bX,bY):
         if not (self.RawGrid[aY][aX].IsPassable and self.RawGrid[bY][bX].IsPassable):
@@ -45,19 +46,32 @@ class Pathfinder(object):
         Start = {'X': aX, 'Y': aY}
         Goal  = {'X': bX, 'Y': bY}
 
+        if self.debug:
+            self.RawGrid[Start['Y']][Start['X']].TileSymbol = 'S'
+            self.RawGrid[Goal['Y']][Goal['X']].TileSymbol = 'G'
+
         Cur = Start
 
         while not Finished:
             V.append(Cur)
+            if self.debug:
+                if not Cur == Start:
+                    self.RawGrid[Cur['Y']][Cur['X']].TileSymbol = '*'
             Q = Neighbors(Cur['X'],Cur['Y'],self.RawGrid,RequirePassable=True)
             Q = [P for P in Q if P not in V] #remove visited nodes from node queue
             if not Q:
+                if self.debug:
+                    print('No path available')
                 raise PathNotFoundException
             BestChoice = ShortestDistance(bX,bY,Q)
             if BestChoice == Goal:
+                if self.debug:
+                    print('Reached our goal')
                 Finished = True
                 break
             Cur = BestChoice
+            if self.debug:
+                print('Now evaluating %s,%s' % (Cur['X'],Cur['Y']))
 
 
 
