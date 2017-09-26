@@ -10,7 +10,7 @@ class ArenaMap(object):
 
     def __init__(self,myX=40,myY=40):
         
-        self.EliminateRedundantCorridors = False
+        self.EliminateRedundantCorridors = True
 
         self.ArenaX = myX
         self.ArenaY = myY
@@ -39,25 +39,20 @@ class ArenaMap(object):
                 self.Rooms.append(r)
                 RoomsMade = RoomsMade + 1
 
+
         for Room in self.Rooms:
+            if self.AllRoomsConnected():
+                break
             for OtherRoom in self.Rooms:
                 if Room == OtherRoom:
                     continue
-                if Room in OtherRoom.ConnectedRooms:
-                    continue
+
+                if self.AllRoomsConnected():
+                    break
 
                 corA = Room.RandomCellAddress()
                 corB = OtherRoom.RandomCellAddress()
-
-                if self.EliminateRedundantCorridors:
-                    try:
-                        finder = Pathfinder.Pathfinder(self.RawGrid)
-                        finder.path(corA[0],corA[1],corB[0],corB[1])
-                    except PathNotFoundException:
-                        pass
-                    else:
-                        continue
-                
+               
                 CorridorTries = 0
                 CorridorMade = False
                 while CorridorTries < MaxCorridorTries and CorridorMade == False:
@@ -66,8 +61,6 @@ class ArenaMap(object):
                         cor = ArenaCorridor(self.RawGrid,corA,corB)
                     except CorridorException:
                         continue
-                    Room.ConnectedRooms.append(OtherRoom)
-                    OtherRoom.ConnectedRooms.append(Room)
                     CorridorMade = True
 
                     self.Corridors.append(cor)
@@ -75,5 +68,18 @@ class ArenaMap(object):
 
     def __str__(self):
         return '\n'.join(' '.join(str(x) for x in row) for row in self.RawGrid)
+
+    def AllRoomsConnected(self):
+        for Room in self.Rooms:
+            for OtherRoom in self.Rooms:
+                if Room == OtherRoom:
+                    continue
+                finder = Pathfinder.Pathfinder(self.RawGrid)
+                if not finder.RoomIsConnected(Room,OtherRoom):
+                    #print('ALL Returning false')
+                    return False
+        #print('ALL Returning True')
+        return True
+
 
 

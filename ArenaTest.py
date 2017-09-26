@@ -1,7 +1,7 @@
 import ArenaMap
 from lib import Pathfinder
 
-TestFinder = True
+TestFinder = False
 
 a = ArenaMap.ArenaMap(50,50)
 if TestFinder:

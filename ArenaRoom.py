@@ -14,16 +14,13 @@ class ArenaRoom(object):
         self.EndX = self.StartX + self.RoomX
         self.EndY = self.StartY + self.RoomY
 
-        #populated during corridor painting
-        self.ConnectedRooms = []
-
     def __eq__(self, other):
         return self.StartX == other.StartX and self.StartY == other.StartY
 
     def RandomCellAddress(self):
         rX = random.randint(self.StartX+1,self.EndX-1)
         rY = random.randint(self.StartY+1,self.EndY-1)
-        return (rX,rY)
+        return(rX,rY)
 
     def Paint(self, RawGrid):
         # do painting

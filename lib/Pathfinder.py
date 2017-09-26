@@ -46,9 +46,6 @@ class Pathfinder(object):
         if not (self.RawGrid[aY][aX].IsPassable() and self.RawGrid[bY][bX].IsPassable()):
             raise PathfinderException
 
-        self.RawGrid[aY][aX].TileSymbol = 'S'
-        self.RawGrid[bY][bX].TileSymbol = 'G'
-
         Start = (aX,aY)
         Goal = (bX,bY)
 
@@ -62,15 +59,28 @@ class Pathfinder(object):
 
         while (not Frontier.empty() and not Found):
             Cur = Frontier.get()
-            if not Cur == Start:
-                self.RawGrid[Cur[1]][Cur[0]].TileSymbol = '*'
             for C in Neighbors(Cur,self.RawGrid,RequirePassable=True):
                 if C == Goal:
                     Found = True
                 if C not in CameFrom:
                     Frontier.put(C)
                     CameFrom[C] = Cur
-        raise PathNotFoundException
+        if not Found:
+            raise PathNotFoundException
+
+    def RoomIsConnected(self,RoomA,RoomB):
+        A = RoomA.RandomCellAddress()
+        B = RoomB.RandomCellAddress()
+
+        try:
+            #print('Trying %s,%s to %s,%s' % (A[0],A[1],B[0],B[1]))
+            self.path(A[0],A[1],B[0],B[1])
+        except PathNotFoundException:
+            #print('IND Returning false')
+            return False
+        else:
+            #print('IND Returning True')
+            return True
 
 
 
