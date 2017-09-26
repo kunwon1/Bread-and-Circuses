@@ -1,9 +1,9 @@
 import ArenaMap
 from lib import Pathfinder
 
-TestFinder = False
+TestFinder = True
 
-a = ArenaMap.ArenaMap(30,30)
+a = ArenaMap.ArenaMap(50,50)
 if TestFinder:
     finder = Pathfinder.Pathfinder(a.RawGrid,debug=True)
     Start = a.Rooms[0].RandomCellAddress()

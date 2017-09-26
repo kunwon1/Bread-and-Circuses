@@ -1,6 +1,12 @@
 from Exceptions import *
 
+from queue import Queue
+
 def ShortestDistance(aX,aY,Points):
+
+    # given a point 'a' and a list of Points, return the Point
+    # with shortest manhattan distance from 'a'
+
     Sorted = []
     Shortest = {'d': 99999}
     for P in Points:
@@ -13,16 +19,18 @@ def ShortestDistance(aX,aY,Points):
     Shortest.pop('d', None)
     return Shortest
 
-def Neighbors(X,Y,RawGrid=None,RequirePassable=False):
+def Neighbors(P,RawGrid=None,RequirePassable=False):
     N = []
+    X = P[0]
+    Y = P[1]
     for aX in (X, X-1, X+1):
         for aY in (Y, Y-1, Y+1):
             if not (aX == X and aY == Y):
-                N.append({'X': aX, 'Y': aY})
+                N.append((aX,aY))
     if RequirePassable:
         if RawGrid is None:
             raise PathfinderException
-        N = [P for P in N if RawGrid[P['Y']][P['X']].IsPassable()]
+        N = [P for P in N if RawGrid[P[1]][P[0]].IsPassable()]
     return N
 
 def Distance(aX,aY,bX,bY):
@@ -38,49 +46,38 @@ class Pathfinder(object):
         if not (self.RawGrid[aY][aX].IsPassable() and self.RawGrid[bY][bX].IsPassable()):
             raise PathfinderException
 
-        Finished = False
-        Iterations = 0
+        self.RawGrid[aY][aX].TileSymbol = 'S'
+        self.RawGrid[bY][bX].TileSymbol = 'G'
 
-        Q = [] #node queue
-        V = [] #visited nodes
+        Start = (aX,aY)
+        Goal = (bX,bY)
 
-        Start = {'X': aX, 'Y': aY}
-        Goal  = {'X': bX, 'Y': bY}
+        Frontier = Queue()
+        Frontier.put(Start)
 
-        if self.debug:
-            self.RawGrid[Start['Y']][Start['X']].TileSymbol = 'S'
-            self.RawGrid[Goal['Y']][Goal['X']].TileSymbol = 'G'
+        CameFrom = {}
+        CameFrom[Start] = None
 
-        Cur = Start
+        Found = False
 
-        while not Finished:
-            Iterations = Iterations + 1
-            V.append(Cur)
-            if self.debug:
-                if not Cur == Start:
-                    self.RawGrid[Cur['Y']][Cur['X']].TileSymbol = '*'
-            Q = Neighbors(Cur['X'],Cur['Y'],self.RawGrid,RequirePassable=True)
-            OldQ = Q
-            Q = [P for P in Q if P not in V] #remove visited nodes from node queue
-            if not Q:
-                if self.debug:
-                    print('No path available, recycling')
-                if Iterations > 1000:
-                    if self.debug:
-                        print('Took too long, bailing')
-                    raise PathNotFoundException
-                Q = OldQ
-                V = []
-            BestChoice = ShortestDistance(bX,bY,Q)
-            if BestChoice == Goal:
-                if self.debug:
-                    print('Reached our goal')
-                Finished = True
-                break
-            Cur = BestChoice
-            if self.debug:
-                pass
-                #print('Now evaluating %s,%s' % (Cur['X'],Cur['Y']))
+        while (not Frontier.empty() and not Found):
+            Cur = Frontier.get()
+            if not Cur == Start:
+                self.RawGrid[Cur[1]][Cur[0]].TileSymbol = '*'
+            for C in Neighbors(Cur,self.RawGrid,RequirePassable=True):
+                if C == Goal:
+                    Found = True
+                if C not in CameFrom:
+                    Frontier.put(C)
+                    CameFrom[C] = Cur
+        raise PathNotFoundException
+
+
+
+
+
+
+
 
 
 

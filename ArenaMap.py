@@ -9,6 +9,8 @@ from lib import Pathfinder
 class ArenaMap(object):
 
     def __init__(self,myX=40,myY=40):
+        
+        self.EliminateRedundantCorridors = False
 
         self.ArenaX = myX
         self.ArenaY = myY
@@ -47,13 +49,14 @@ class ArenaMap(object):
                 corA = Room.RandomCellAddress()
                 corB = OtherRoom.RandomCellAddress()
 
-                try:
-                    finder = Pathfinder.Pathfinder(self.RawGrid)
-                    finder.path(corA[0],corA[1],corB[0],corB[1])
-                except PathNotFoundException:
-                    pass
-                else:
-                    continue
+                if self.EliminateRedundantCorridors:
+                    try:
+                        finder = Pathfinder.Pathfinder(self.RawGrid)
+                        finder.path(corA[0],corA[1],corB[0],corB[1])
+                    except PathNotFoundException:
+                        pass
+                    else:
+                        continue
                 
                 CorridorTries = 0
                 CorridorMade = False
