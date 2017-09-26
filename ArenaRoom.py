@@ -6,8 +6,8 @@ class ArenaRoom(object):
         self.ROOM_OK             = 0;
         self.ARENA_OUT_OF_BOUNDS = 1;
 
-        self.RoomX = random.randint(4,20)
-        self.RoomY = random.randint(4,20)
+        self.RoomX = random.randint(8,18)
+        self.RoomY = random.randint(8,18)
 
         self.StartX = StartCell.X
         self.StartY = StartCell.Y
