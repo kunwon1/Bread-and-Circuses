@@ -27,7 +27,7 @@ class ArenaCorridor(object):
                 if x+1 >= len(RawGrid[y]) or x-1 <= 1:
                     raise CorridorException
 
-        r = random.randint(1,2)
+        r = random.randint(1,610)
 
         xDone = False
         yDone = False
@@ -54,7 +54,7 @@ class ArenaCorridor(object):
                 except CorridorDoneException:
                     yDone = True
 
-        else:
+        if r == 2:
             while yDone == False:
                 if self.IsConnected(aX,aY,bX,bY):
                     break
@@ -75,13 +75,75 @@ class ArenaCorridor(object):
                     RawGrid[aY][oldX].TileSymbol = '.'
                 except CorridorDoneException:
                     xDone = True
+        else:
+            while yDone == False and xDone == False:
+                if self.IsConnected(aX,aY,bX,bY):
+                    break
+                try:
+                    oldY = aY
+                    oldX = aX
+                    aY = Approach(aY,bY)
+                    aX = Approach(aX,bX)
+                    RawGrid[aY][aX].TileSymbol = '.'
+                    RawGrid[oldY][oldX].TileSymbol = '.'
+                except CorridorDoneException:
+                    if aY == bY:
+                        yDone = True
+                    if aX == bX:
+                        xDone = True
+            r = random.randint(1,2)
+    
+            if r == 1:
+                while xDone == False:
+                    if self.IsConnected(aX,aY,bX,bY):
+                        break
+                    try:
+                        oldX = aX
+                        aX = Approach(aX,bX)
+                        RawGrid[aY][aX].TileSymbol = '.'
+                        RawGrid[aY][oldX].TileSymbol = '.'
+                    except CorridorDoneException:
+                        xDone = True
+                while yDone == False:
+                    if self.IsConnected(aX,aY,bX,bY):
+                        break
+                    try:
+                        oldY = aY
+                        aY = Approach(aY,bY) 
+                        RawGrid[aY][aX].TileSymbol = '.'
+                        RawGrid[oldY][aX].TileSymbol = '.'
+                    except CorridorDoneException:
+                        yDone = True
+    
+            if r == 2:
+                while yDone == False:
+                    if self.IsConnected(aX,aY,bX,bY):
+                        break
+                    try:
+                        oldY = aY
+                        aY = Approach(aY,bY)
+                        RawGrid[aY][aX].TileSymbol = '.'
+                        RawGrid[oldY][aX].TileSymbol = '.'
+                    except CorridorDoneException:
+                        yDone = True
+                while xDone == False:
+                    if self.IsConnected(aX,aY,bX,bY):
+                        break
+                    try:
+                        oldX = aX
+                        aX = Approach(aX,bX)
+                        RawGrid[aY][aX].TileSymbol = '.'
+                        RawGrid[aY][oldX].TileSymbol = '.'
+                    except CorridorDoneException:
+                        xDone = True
+ 
 
     def IsConnected(self,aX,aY,bX,bY):
         #print('Doing %s,%s %s,%s' % (aX,aY,bX,bY))
         finder = Pathfinder.Pathfinder(self.RawGrid)
         try:
             finder.path(aX,aY,bX,bY)
-        except PathNotFoundException:
+        except (PathNotFoundException,PathfinderException) as e:
             return False
         else:
             return True
