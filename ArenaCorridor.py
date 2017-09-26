@@ -32,6 +32,8 @@ class ArenaCorridor(object):
         xDone = False
         yDone = False
 
+        #TODO split into logical chunks
+
         if r == 1:
             while xDone == False:
                 if self.IsConnected(aX,aY,bX,bY):
