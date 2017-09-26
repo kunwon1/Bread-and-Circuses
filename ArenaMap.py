@@ -26,7 +26,7 @@ class ArenaMap(object):
 
         MaxCorridorTries = 300
 
-        while RoomTries < MaxRoomTries and RoomsMade < 4:
+        while RoomTries < MaxRoomTries and RoomsMade < 8:
             RoomTries = RoomTries + 1
             RootX = random.randint(1,self.ArenaX)
             RootY = random.randint(1,self.ArenaY)

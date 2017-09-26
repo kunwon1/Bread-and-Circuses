@@ -51,20 +51,20 @@ class Pathfinder(object):
 
         Frontier = Queue()
         Frontier.put(Start)
-
-        CameFrom = {}
-        CameFrom[Start] = None
+        Visited = []
+        Visited.append(Start)
 
         Found = False
 
-        while (not Frontier.empty() and not Found):
+        while ((not Frontier.empty()) and (not Found)):
             Cur = Frontier.get()
+
             for C in Neighbors(Cur,self.RawGrid,RequirePassable=True):
                 if C == Goal:
                     Found = True
-                if C not in CameFrom:
+                if C not in Visited:
+                    Visited.append(C)
                     Frontier.put(C)
-                    CameFrom[C] = Cur
         if not Found:
             raise PathNotFoundException
 

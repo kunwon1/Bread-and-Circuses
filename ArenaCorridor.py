@@ -1,48 +1,24 @@
 import random
+from lib import Pathfinder
 from Exceptions import *
 
-class CorridorVal(object):
-
-    def __init__(self,num):
-        self.num = int(num)
-
-    def __index__(self):
-        return self.num
-
-    def __repr__(self):
-        return self.num
-
-    def __str__(self):
-        return str(self.num)
-
-    def __add__(self,other):
-        return CorridorVal(self.num + other)
-
-    def __sub__(self,other):
-        return CorridorVal(self.num - other)
-    
-    def __le__(self,other):
-        return self.num <= other
-
-    def __ge__(self,other):
-        return self.num >= other
-
-    def Approach(self,dest):
-        if self.num < dest.num:
-            return self.num + 1
-        if self.num > dest.num:
-            return self.num - 1
-        if self.num == dest.num:
-            raise CorridorDoneException
-
+def Approach(s,f):
+    if f > s:
+        return s + 1
+    if f < s:
+        return s - 1
+    if f == s:
+        raise CorridorDoneException
 
 class ArenaCorridor(object):
 
     def __init__(self,RawGrid,StartCell,EndCell):
-        aX = CorridorVal(StartCell[0])
-        aY = CorridorVal(StartCell[1])
-        bX = CorridorVal(EndCell[0])
-        bY = CorridorVal(EndCell[1])
+        aX = StartCell[0]
+        aY = StartCell[1]
+        bX = EndCell[0]
+        bY = EndCell[1]
+
+        self.RawGrid = RawGrid
 
         for y in (aY, bY):
             for x in (aX, bX):
@@ -58,39 +34,57 @@ class ArenaCorridor(object):
 
         if r == 1:
             while xDone == False:
+                if self.IsConnected(aX,aY,bX,bY):
+                    break
                 try:
                     oldX = aX
-                    aX = CorridorVal(aX.Approach(bX))
+                    aX = Approach(aX,bX)
                     RawGrid[aY][aX].TileSymbol = '.'
                     RawGrid[aY][oldX].TileSymbol = '.'
                 except CorridorDoneException:
                     xDone = True
             while yDone == False:
+                if self.IsConnected(aX,aY,bX,bY):
+                    break
                 try:
                     oldY = aY
-                    aY = CorridorVal(aY.Approach(bY))
+                    aY = Approach(aY,bY) 
                     RawGrid[aY][aX].TileSymbol = '.'
                     RawGrid[oldY][aX].TileSymbol = '.'
                 except CorridorDoneException:
                     yDone = True
 
         else:
-             while yDone == False:
+            while yDone == False:
+                if self.IsConnected(aX,aY,bX,bY):
+                    break
                 try:
                     oldY = aY
-                    aY = CorridorVal(aY.Approach(bY))
+                    aY = Approach(aY,bY)
                     RawGrid[aY][aX].TileSymbol = '.'
                     RawGrid[oldY][aX].TileSymbol = '.'
                 except CorridorDoneException:
                     yDone = True
-             while xDone == False:
+            while xDone == False:
+                if self.IsConnected(aX,aY,bX,bY):
+                    break
                 try:
                     oldX = aX
-                    aX = CorridorVal(aX.Approach(bX))
+                    aX = Approach(aX,bX)
                     RawGrid[aY][aX].TileSymbol = '.'
                     RawGrid[aY][oldX].TileSymbol = '.'
                 except CorridorDoneException:
                     xDone = True
+
+    def IsConnected(self,aX,aY,bX,bY):
+        #print('Doing %s,%s %s,%s' % (aX,aY,bX,bY))
+        finder = Pathfinder.Pathfinder(self.RawGrid)
+        try:
+            finder.path(aX,aY,bX,bY)
+        except PathNotFoundException:
+            return False
+        else:
+            return True
   
            
 
