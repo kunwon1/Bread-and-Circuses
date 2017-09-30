@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
-import curses
-import curses.textpad
-from curses import wrapper
 import time
+import curses
+from curses import wrapper
+
 import ArenaMap
+from Components import *
+from Entities import *
 
 MapWindow = None
 InfoWindow = None
