@@ -1,3 +1,5 @@
+# Copyright (c) 2017 David J Moore
+
 class ArenaCell(object):
 
     def __init__(self,myX,myY):

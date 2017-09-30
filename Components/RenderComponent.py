@@ -1,3 +1,5 @@
+# Copyright (c) 2017 David J Moore
+
 import Components.Component as Component
 
 class RenderComponent(Component.Component):

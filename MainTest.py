@@ -1,3 +1,5 @@
+# Copyright (c) 2017 David J Moore
+
 #!/usr/bin/env python
 
 import time
@@ -5,12 +7,16 @@ import curses
 from curses import wrapper
 
 import ArenaMap
+import ArenaListener
+
 from Components import *
 from Entities import *
 
 MapWindow = None
 InfoWindow = None
 StatusWindow = None
+
+AL = ArenaListener.ArenaListener()
 
 def DrawWindows(stdscr):
     global MapWindow,StatusWindow,InfoWindow

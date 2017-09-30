@@ -1,3 +1,5 @@
+# Copyright (c) 2017 David J Moore
+
 import random
 from lib import Pathfinder
 from Exceptions import *

@@ -1,3 +1,5 @@
+# Copyright (c) 2017 David J Moore
+
 import persistent
 
 class Entity(persistent.Persistent):
