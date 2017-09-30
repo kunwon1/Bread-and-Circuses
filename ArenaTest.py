@@ -3,7 +3,9 @@ from lib import Pathfinder
 
 TestFinder = False
 
-a = ArenaMap.ArenaMap(35,35)
+# map x, map y, room min dimensional size, room max dimensional size, max number of rooms
+a = ArenaMap.ArenaMap(50,50,5,15,12)
+#a = ArenaMap.ArenaMap(20,35)
 if TestFinder:
     finder = Pathfinder.Pathfinder(a.RawGrid,debug=True)
     Start = a.Rooms[0].RandomCellAddress()

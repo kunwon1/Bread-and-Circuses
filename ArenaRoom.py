@@ -2,12 +2,12 @@ import random
 
 class ArenaRoom(object):
 
-    def __init__(self,StartCell):
+    def __init__(self,StartCell,min=5,max=15):
         self.ROOM_OK             = 0;
         self.ARENA_OUT_OF_BOUNDS = 1;
 
-        self.RoomX = random.randint(8,18)
-        self.RoomY = random.randint(8,18)
+        self.RoomX = random.randint(min,max)
+        self.RoomY = random.randint(min,max)
 
         self.StartX = StartCell.X
         self.StartY = StartCell.Y

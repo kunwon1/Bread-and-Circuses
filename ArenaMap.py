@@ -8,12 +8,15 @@ from lib import Pathfinder
 
 class ArenaMap(object):
 
-    def __init__(self,myX=40,myY=40):
+    def __init__(self,myX=40,myY=40,roomMin=5,roomMax=15,roomLimit=5):
         
         self.EliminateRedundantCorridors = True
 
         self.ArenaX = myX
         self.ArenaY = myY
+
+        self.RoomMin = roomMin
+        self.RoomMax = roomMax
 
         self.RawGrid = [[ArenaCell(x,y) for x in range(self.ArenaY)] for y in range(self.ArenaX)]
        
@@ -26,12 +29,12 @@ class ArenaMap(object):
 
         MaxCorridorTries = 300
 
-        while RoomTries < MaxRoomTries and RoomsMade < 4:
+        while RoomTries < MaxRoomTries and RoomsMade < roomLimit:
             RoomTries = RoomTries + 1
             RootX = random.randint(1,self.ArenaX)
             RootY = random.randint(1,self.ArenaY)
             try:
-                r = ArenaRoom(self.RawGrid[RootY][RootX])
+                r = ArenaRoom(self.RawGrid[RootY][RootX],self.RoomMin,self.RoomMax)
             except IndexError:
                 continue
             ret = r.Paint(self.RawGrid)
