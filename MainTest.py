@@ -4,10 +4,13 @@
 
 import time
 import curses
+import random
 from curses import wrapper
 
 import ArenaMap
 import ArenaListener
+
+from lib import Pathfinder
 
 from Components import *
 from Entities import *
@@ -46,13 +49,31 @@ def main(stdscr):
     for w in AllWindows:
         w.box()
 
-    MapWindow.addstr(0,0,"Map")
-    InfoWindow.addstr(0,0,"Info")
-    StatusWindow.addstr(0,0,"Status")
+    MapWindow.addstr(0,2,"Map")
+    InfoWindow.addstr(0,2,"Info")
+    StatusWindow.addstr(0,2,"Status")
 
     a = ArenaMap.ArenaMap(30,30,4,12,5)
+    
+    P = PlayerEntity.PlayerEntity()
+    RandomCell = random.choice(a.Rooms).RandomCellAddress()
+    P.SetMapPositionWithTuple(RandomCell)
+    a.Entities.append(P)
 
-    i = 2
+    G = GladiatorEntity.GladiatorEntity()
+    RandomCell2 = random.choice(a.Rooms).RandomCellAddress()
+    while RandomCell2 == RandomCell:
+        RandomCell2 = random.choice(a.Rooms).RandomCellAddress()
+    G.SetMapPositionWithTuple(RandomCell2)
+    a.Entities.append(G)
+
+    finder = Pathfinder.Pathfinder(a.RawGrid,True)
+    try:
+        finder.path(P.MapX,P.MapY,G.MapX,G.MapY)
+    except (PathNotFoundException,PathfinderException) as e:
+        pass
+
+    i = 1
     for line in iter(str(a).splitlines()):
         MapWindow.addstr(i, 2, line)
         i += 1
@@ -65,8 +86,7 @@ def main(stdscr):
         if c == ord('q'):
             break
         else:
-            a = ArenaMap.ArenaMap(30,30,4,12,5)
-            i = 2
+            i = 1
             for line in iter(str(a).splitlines()):
                 MapWindow.addstr(i, 2, line)
                 i += 1

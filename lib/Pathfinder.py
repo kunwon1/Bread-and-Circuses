@@ -1,6 +1,7 @@
 from Exceptions import *
 
-from queue import Queue
+import random
+from queue import PriorityQueue
 
 def ShortestDistance(aX,aY,Points):
 
@@ -36,6 +37,12 @@ def Neighbors(P,RawGrid=None,RequirePassable=False):
 def Distance(aX,aY,bX,bY):
     return abs(aX-bX) + abs(aY-bY)
 
+def MoveCost(a,b):
+    if a[0] == b[0] or a[1] == b[1]:
+        return 5 
+    else:
+        return 6
+
 class Pathfinder(object):
 
     def __init__(self,RawGrid,debug=False):
@@ -49,24 +56,41 @@ class Pathfinder(object):
         Start = (aX,aY)
         Goal = (bX,bY)
 
-        Frontier = Queue()
-        Frontier.put(Start)
-        Visited = []
-        Visited.append(Start)
+        Frontier = PriorityQueue()
+        Frontier.put(Start, 0)
+        From = {}
+        Cost = {}
+
+        From[Start] = None
+        Cost[Start] = 1
 
         Found = False
 
         while ((not Frontier.empty()) and (not Found)):
             Cur = Frontier.get()
+            if Cur == Goal:
+                Found = True
 
             for C in Neighbors(Cur,self.RawGrid,RequirePassable=True):
                 if C == Goal:
                     Found = True
-                if C not in Visited:
-                    Visited.append(C)
-                    Frontier.put(C)
+                NewCost = Cost[Cur] + MoveCost(Cur, C)
+                if (C not in Cost) or (NewCost < Cost[C]):
+                    Cost[C] = NewCost
+                    Priority = NewCost + Distance(Goal[0],Goal[1],C[0],C[1])
+                    Frontier.put(C, Priority)
+                    From[C] = Cur
+
         if not Found:
             raise PathNotFoundException
+        else:
+            if self.debug:
+                a = Goal
+                while From[a] != None:
+                    #print(From[a])
+                    if a != Start and a != Goal:
+                        self.RawGrid[a[1]][a[0]].TileSymbol = '*'
+                    a = From[a]
 
     def RoomIsConnected(self,RoomA,RoomB):
         A = RoomA.RandomCellAddress()
@@ -81,16 +105,5 @@ class Pathfinder(object):
         else:
             #print('IND Returning True')
             return True
-
-
-
-
-
-
-
-
-
-
-
 
 

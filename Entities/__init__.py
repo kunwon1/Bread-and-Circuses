@@ -2,5 +2,5 @@
 
 import Entities.Entity
 
-__all__ = ["Entity"]
+__all__ = ["Entity","PlayerEntity","GladiatorEntity"]
 

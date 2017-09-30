@@ -24,6 +24,7 @@ class ArenaMap(object):
        
         self.Rooms = []
         self.Corridors = []
+        self.Entities = []
 
         RoomTries = 0
         RoomsMade = 0
@@ -72,7 +73,10 @@ class ArenaMap(object):
 
 
     def __str__(self):
-        return '\n'.join(' '.join(str(x) for x in row) for row in self.RawGrid)
+        TempGrid = list(self.RawGrid)
+        for e in self.Entities:
+            TempGrid[e.MapY][e.MapX].TileSymbol = e.GetGlyph()
+        return '\n'.join(' '.join(str(x) for x in row) for row in TempGrid)
 
     def AllRoomsConnected(self):
         for Room in self.Rooms:
@@ -85,6 +89,13 @@ class ArenaMap(object):
                     return False
         #print('ALL Returning True')
         return True
+
+    def HasEntities(self):
+        if not self.Entities:
+            return False
+        else:
+            return True
+
 
 
 
