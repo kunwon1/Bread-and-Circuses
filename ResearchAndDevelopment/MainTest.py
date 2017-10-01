@@ -50,9 +50,9 @@ def main(stdscr):
     for w in AllWindows:
         w.box()
 
-    MapWindow.addstr(0,2,"Map")
-    InfoWindow.addstr(0,2,"Info")
-    StatusWindow.addstr(0,2,"Status")
+    MapWindow.addstr(0,2," Map ")
+    InfoWindow.addstr(0,2," Enemy ")
+    StatusWindow.addstr(0,2," Your Fighter ")
 
     a = ArenaMap(30,30,4,12,5)
     
@@ -101,7 +101,6 @@ def main(stdscr):
                 i += 1
             MapWindow.addstr(i+1,2,"Turn %s" % str(AT.TotalSteps))
             MapWindow.refresh()
-            stdscr.refresh()
 
 
 #    time.sleep(5)

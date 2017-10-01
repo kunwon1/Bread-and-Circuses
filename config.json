@@ -1,0 +1,68 @@
+{
+	"pyarena":{
+		"WallGlyph":"#",
+		"FloorGlyph":".",
+		"ColumnarBoundary":54,
+		"MapWindowLabel":"Map",
+		"TopRightWindowLabel":"Enemy",
+		"BottomRightWindowLabel":"Your Fighter",
+		"MapX":30,
+		"MapY":30,
+		"RoomMinimumDimension":4,
+		"RoomMaximumDimension":12,
+		"MaximumNumberOfRooms":5,
+		"QuitKey":"q",
+		"ArenaMap":{
+			"EliminateRedundantCorridors":true,
+			"DefaultMapXDimension":40,
+			"DefaultMapYDimension":40,
+			"RoomMinimumDimension":5,
+			"RoomMaximumDimension":15,
+			"MaximumNumberOfRooms":5,
+			"MaximumRoomAttempts":300,
+			"MaximumCorridorAttempts":300
+		},
+		"ArenaCell":{
+		},
+		"ArenaCorridor":{
+		},
+		"ArenaRoom":{
+			"RoomMinimumDimension":5,
+			"RoomMaximumDimension":15
+		},
+		"ArenaTimer":{
+			"TurnInterval":0.5
+		},
+		"ArenaListener":{
+			"LoggerName":"ArenaListener"
+		},
+		"Insult":{
+			"ProbabilityCeiling":100,
+			"Mode1Probability":10,
+			"Mode2Probability":50
+		},
+		"MakeName":{
+			"ProbabilityCeiling":1000,
+			"Mode1Probability":10,
+			"Mode2Probability":35,
+			"Mode3Probability":60,
+			"Mode4Probability":100,
+			"Mode5Probability":240
+		},
+		"Components":{
+			"DumbAIComponent":{
+			}
+		},
+		"Entities":{
+			"GladiatorEntity":{
+				"Glyph":"G"
+			},
+			"PlayerEntity":{
+				"Glyph":"@"
+			}
+		}
+	}
+}
+
+
+

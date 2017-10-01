@@ -91,9 +91,7 @@ class ArenaMap(object):
                     continue
                 finder = Pathfinder(self.RawGrid)
                 if not finder.RoomIsConnected(Room,OtherRoom):
-                    #print('ALL Returning false')
                     return False
-        #print('ALL Returning True')
         return True
 
     def HasEntities(self):
