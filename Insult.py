@@ -46,7 +46,8 @@ def GetBadNoun():
                 'dogs',
                 'criminals',
                 'zombies',
-                'lawyers')
+                'lawyers',
+                'cabbage')
 
     return random.choice(BadNouns)
 

@@ -2,11 +2,11 @@
 
 import random
 
-from ArenaCell import ArenaCell
-from ArenaRoom import ArenaRoom
-from ArenaCorridor import ArenaCorridor
-from Exceptions import *
-from lib import Pathfinder
+from pyarena.ArenaCell import ArenaCell
+from pyarena.ArenaRoom import ArenaRoom
+from pyarena.ArenaCorridor import ArenaCorridor
+from pyarena.Exceptions import *
+from pyarena.lib.Pathfinder import Pathfinder
 
 class ArenaMap(object):
 
@@ -83,7 +83,7 @@ class ArenaMap(object):
             for OtherRoom in self.Rooms:
                 if Room == OtherRoom:
                     continue
-                finder = Pathfinder.Pathfinder(self.RawGrid)
+                finder = Pathfinder(self.RawGrid)
                 if not finder.RoomIsConnected(Room,OtherRoom):
                     #print('ALL Returning false')
                     return False

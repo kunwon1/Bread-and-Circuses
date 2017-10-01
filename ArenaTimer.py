@@ -7,8 +7,10 @@ class ArenaTimer(object):
     def __init__(self):
         self.Interval = 1.0
         self.LastTime = time.clock()
+        self.TotalSteps = 1
 
     def Step(self):
+        self.TotalSteps += 1
         cur = time.clock()
         elapsed = cur - self.LastTime
         remain = self.Interval - elapsed

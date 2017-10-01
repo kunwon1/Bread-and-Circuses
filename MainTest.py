@@ -2,24 +2,31 @@
 
 #!/usr/bin/env python
 
+import os
+import sys
+
+sys.path.append(os.path.dirname(__file__))
+
 import time
 import curses
 import random
 from curses import wrapper
 
-import ArenaMap
-import ArenaListener
+from pyarena.ArenaMap import ArenaMap
+from pyarena.ArenaTimer import ArenaTimer
+from pyarena.ArenaListener import ArenaListener
 
-from lib import Pathfinder
+from pyarena.lib.Pathfinder import Pathfinder
 
 from Components import *
 from Entities import *
+
 
 MapWindow = None
 InfoWindow = None
 StatusWindow = None
 
-AL = ArenaListener.ArenaListener()
+AL = ArenaListener()
 
 def DrawWindows(stdscr):
     global MapWindow,StatusWindow,InfoWindow
@@ -53,7 +60,7 @@ def main(stdscr):
     InfoWindow.addstr(0,2,"Info")
     StatusWindow.addstr(0,2,"Status")
 
-    a = ArenaMap.ArenaMap(30,30,4,12,5)
+    a = ArenaMap(30,30,4,12,5)
     
     P = PlayerEntity.PlayerEntity()
     RandomCell = random.choice(a.Rooms).RandomCellAddress()
@@ -67,7 +74,10 @@ def main(stdscr):
     G.SetMapPositionWithTuple(RandomCell2)
     a.Entities.append(G)
 
-    finder = Pathfinder.Pathfinder(a.RawGrid,True)
+    for e in a.Entities:
+        e._AIComponent = DumbAIComponent.DumbAIComponent(a.RawGrid)
+
+    finder = Pathfinder(a.RawGrid,True)
     try:
         finder.path(P.MapX,P.MapY,G.MapX,G.MapY)
     except (PathNotFoundException,PathfinderException) as e:
@@ -77,20 +87,23 @@ def main(stdscr):
     for line in iter(str(a).splitlines()):
         MapWindow.addstr(i, 2, line)
         i += 1
-
+    MapWindow.addstr(i+1,2,"Turn 1")
 
     stdscr.refresh()
-
+    
+    #keep this right before the while loop
+    AT = ArenaTimer()
     while 1:
         c = stdscr.getch()
         if c == ord('q'):
             break
         else:
+            AT.Step()
             i = 1
             for line in iter(str(a).splitlines()):
                 MapWindow.addstr(i, 2, line)
                 i += 1
-
+            MapWindow.addstr(i+1,2,"Turn %s" % str(AT.TotalSteps))
             MapWindow.refresh()
 
 
