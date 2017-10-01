@@ -71,7 +71,7 @@ def main(stdscr):
     for e in a.Entities:
         e._AIComponent = DumbAIComponent.DumbAIComponent(a.RawGrid)
 
-    finder = Pathfinder(a.RawGrid,True)
+    finder = Pathfinder(a.RawGrid)
     try:
         finder.path(P.MapX,P.MapY,G.MapX,G.MapY)
     except (PathNotFoundException,PathfinderException) as e:
@@ -92,6 +92,8 @@ def main(stdscr):
         if c == ord('q'):
             break
         else:
+            G._AIComponent.Step(G,P)
+            P._AIComponent.Step(P,G)
             AT.Step()
             i = 1
             for line in iter(str(a).splitlines()):
@@ -99,6 +101,7 @@ def main(stdscr):
                 i += 1
             MapWindow.addstr(i+1,2,"Turn %s" % str(AT.TotalSteps))
             MapWindow.refresh()
+            stdscr.refresh()
 
 
 #    time.sleep(5)

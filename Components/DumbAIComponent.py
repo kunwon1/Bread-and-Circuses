@@ -1,7 +1,9 @@
 # Copyright (c) 2017 David J Moore
 
+import random
+
 from pyarena.Components.AIComponent import AIComponent
-from pyarena.Lib.Pathfinder import Pathfinder
+from pyarena.Lib.Pathfinder import Pathfinder,Neighbors
 
 class DumbAIComponent(AIComponent):
 
@@ -9,6 +11,7 @@ class DumbAIComponent(AIComponent):
         self.Target = None
         self.MyLoc = None
         self.TargetLoc = None
+        self.MapGrid = MapGrid
 
     def Step(self,Myself,Target):
         self.Target = Target
@@ -16,4 +19,15 @@ class DumbAIComponent(AIComponent):
         self.MyLoc = Myself.GetMapPositionTuple()
         self.TargetLoc = Target.GetMapPositionTuple()
 
+        finder = Pathfinder(self.MapGrid)
+        DMap = finder.DijkstraMap(self.TargetLoc[0],self.TargetLoc[1])
+        best = [self.MyLoc]
+        for N in Neighbors(self.MyLoc,self.MapGrid,True):
+            if DMap[N] < DMap[best[0]]:
+                best = [N]
+            elif DMap[N] == DMap[best[0]]:
+                best.append(N)
+        L = random.choice(best)
+        self.Myself.SetMapPositionWithTuple(L)
 
+    

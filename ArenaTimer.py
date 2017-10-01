@@ -5,7 +5,7 @@ import time
 class ArenaTimer(object):
 
     def __init__(self):
-        self.Interval = 1.0
+        self.Interval = 0.5
         self.LastTime = time.clock()
         self.TotalSteps = 1
 

@@ -1,5 +1,5 @@
 import random
-from queue import PriorityQueue
+from queue import PriorityQueue,Queue
 
 from pyarena.Exceptions import *
 
@@ -48,6 +48,31 @@ class Pathfinder(object):
     def __init__(self,RawGrid,debug=False):
         self.RawGrid = RawGrid
         self.debug = debug
+
+    def DijkstraMap(self,X,Y):
+        if not self.RawGrid[Y][X].IsPassable():
+            raise PathfinderException
+
+        Start = (X,Y)
+
+        Frontier = Queue()
+        Frontier.put(Start)
+
+        Map = {}
+        Visited = {}
+
+        Map[Start] = 0
+
+        while not Frontier.empty():
+            Cur = Frontier.get()
+            for C in Neighbors(Cur,self.RawGrid,RequirePassable=True):
+                if C not in Visited:
+                    Map[C] = Map[Cur] + 1
+                    Frontier.put(C)
+                    Visited[C] = True
+
+        return Map
+
 
     def path(self,aX,aY,bX,bY):
         if not (self.RawGrid[aY][aX].IsPassable() and self.RawGrid[bY][bX].IsPassable()):

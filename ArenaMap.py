@@ -73,9 +73,15 @@ class ArenaMap(object):
 
 
     def __str__(self):
-        TempGrid = list(self.RawGrid)
+        TempGrid = []
+        for Y in self.RawGrid:
+            TempSubGrid = []
+            for X in Y:
+                TempSubGrid.append(str(X.TileSymbol))
+            TempGrid.append(TempSubGrid)
+            
         for e in self.Entities:
-            TempGrid[e.MapY][e.MapX].TileSymbol = e.GetGlyph()
+            TempGrid[e.MapY][e.MapX] = e.GetGlyph()
         return '\n'.join(' '.join(str(x) for x in row) for row in TempGrid)
 
     def AllRoomsConnected(self):
@@ -95,6 +101,7 @@ class ArenaMap(object):
             return False
         else:
             return True
+
 
 
 
