@@ -2,9 +2,11 @@
 
 from . import Entity
 
+from pyarena.Config import Conf
+
 class PlayerEntity(Entity.Entity):
 
     def __init__(self):
         super(PlayerEntity,self).__init__()
-        self.Glyph = '@'
+        self.Glyph = Conf['Entities']['PlayerEntity']['Glyph']
 

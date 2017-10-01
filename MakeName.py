@@ -2,6 +2,8 @@
 
 import random
 
+from pyarena.Config import Conf
+
 def choice(list,nospace=False):
     ret = random.choice(list)
     if nospace:
@@ -148,28 +150,28 @@ class MakeName(object):
         sg = 1
 
         if sg == 1:
-            die = random.randint(1,1000)
+            die = random.randint(1,Conf['MakeName']['ProbabilityCeiling'])
 
-            if die <= 10:
+            if die <= Conf['MakeName']['Mode1Probability']:
                 name += choice(prefix)
                 name += choice(solofemale)
                 name += choice(suffix, True)
                 self.name = name
                 return
 
-            if die <= 35:
+            if die <= Conf['MakeName']['Mode2Probability']:
                 name += choice(prefix)
                 name += choice(solofemale, True)
                 self.name = name
                 return
 
-            if die <= 60:
+            if die <= Conf['MakeName']['Mode3Probability']:
                 name += choice(solofemale)
                 name += choice(suffix, True)
                 self.name = name
                 return
 
-            if die <= 100:
+            if die <= Conf['MakeName']['Mode4Probability']:
                 name += choice(prefix)
                 name += choice(endcons1, True).title()
                 name += choice(vow1, True)
@@ -177,7 +179,7 @@ class MakeName(object):
                 self.name = name
                 return
             
-            if die <= 240:
+            if die <= Conf['MakeName']['Mode5Probability']:
                 name += choice(prefix)
                 name += choice(endcons1, True).title()
                 name += choice(vow1, True)

@@ -2,10 +2,12 @@
 
 import time
 
+from pyarena.Config import Conf
+
 class ArenaTimer(object):
 
     def __init__(self):
-        self.Interval = 0.5
+        self.Interval = Conf['ArenaTimer']['TurnInterval']
         self.LastTime = time.clock()
         self.TotalSteps = 1
 

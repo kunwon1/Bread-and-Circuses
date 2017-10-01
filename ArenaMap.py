@@ -2,21 +2,28 @@
 
 import random
 
+from pyarena.Config import Conf
 from pyarena.ArenaCell import ArenaCell
 from pyarena.ArenaRoom import ArenaRoom
 from pyarena.ArenaCorridor import ArenaCorridor
 from pyarena.Exceptions import *
 from pyarena.Lib.Pathfinder import Pathfinder
 
+
 class ArenaMap(object):
 
-    def __init__(self,myX=40,myY=40,roomMin=5,roomMax=15,roomLimit=5):
-        
-        self.EliminateRedundantCorridors = True
+    def __init__(self,myX = Conf['ArenaMap']['DefaultMapXDimension'],
+                      myY = Conf['ArenaMap']['DefaultMapYDimension'],
+                      roomMin = Conf['ArenaMap']['RoomMinimumDimension'],
+                      roomMax = Conf['ArenaMap']['RoomMaximumDimension'],
+                      roomLimit = Conf['ArenaMap']['MaximumNumberOfRooms']):
+
+        MaxRoomTries = Conf['ArenaMap']['MaximumRoomAttempts']
+        MaxCorridorTries = Conf['ArenaMap']['MaximumCorridorAttempts']
+        self.EliminateRedundantCorridors = Conf['ArenaMap']['EliminateRedundantCorridors']
 
         self.ArenaX = myX
         self.ArenaY = myY
-
         self.RoomMin = roomMin
         self.RoomMax = roomMax
 
@@ -25,12 +32,8 @@ class ArenaMap(object):
         self.Rooms = []
         self.Corridors = []
         self.Entities = []
-
         RoomTries = 0
         RoomsMade = 0
-        MaxRoomTries = 300
-
-        MaxCorridorTries = 300
 
         while RoomTries < MaxRoomTries and RoomsMade < roomLimit:
             RoomTries = RoomTries + 1
@@ -44,7 +47,6 @@ class ArenaMap(object):
             if ret == 0:
                 self.Rooms.append(r)
                 RoomsMade = RoomsMade + 1
-
 
         for Room in self.Rooms:
             if self.AllRoomsConnected():

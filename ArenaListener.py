@@ -4,6 +4,8 @@ import queue
 import logging
 from logging.handlers import QueueHandler
 
+from pyarena.Config import Conf
+
 class ArenaListener(object):
     
     def __init__(self):
@@ -11,7 +13,7 @@ class ArenaListener(object):
 
         self.Handler = QueueHandler(self.Q)
 
-        l = logging.getLogger('ArenaListener')
+        l = logging.getLogger(Conf['ArenaListener']['LoggerName'])
         l.addHandler(self.Handler)
         l.setLevel(logging.DEBUG)
 

@@ -3,10 +3,10 @@
 import random
 
 def Insult():
-    c = random.randint(0,100)
+    c = random.randint(0,Conf['Insult']['ProbabilityCeiling'])
     l = []
 
-    if c < 10:
+    if c < Conf['Insult']['Mode1Probability']:
         l.append(GetSingularTarget().capitalize())
         l.append(GetSingularTargetNounJoiner())
         l.append(GetBadNounModifier())
@@ -16,7 +16,7 @@ def Insult():
         i = i + '!'
         return i
 
-    elif c < 50:
+    elif c < Conf['Insult']['Mode2Probability']:
         l.append(GetPluralTarget().capitalize())
         l.append(GetPluralTargetNounJoiner())
         l.append(GetBadNounModifier())

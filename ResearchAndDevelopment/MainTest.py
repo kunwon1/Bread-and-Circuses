@@ -9,10 +9,11 @@ import curses
 import random
 from curses import wrapper
 
-from pyarena.ArenaMap import ArenaMap
 from pyarena.Entities import *
-from pyarena.ArenaTimer import ArenaTimer
+from pyarena.Config import Conf
 from pyarena.Components import *
+from pyarena.ArenaMap import ArenaMap
+from pyarena.ArenaTimer import ArenaTimer
 from pyarena.ArenaListener import ArenaListener
 from pyarena.Lib.Pathfinder import Pathfinder
 
@@ -28,10 +29,10 @@ def DrawWindows(stdscr):
                               int(curses.COLS / 3 * 2),
                               0, 0)
     InfoWindow = stdscr.subwin(int(curses.LINES / 2 - 1),
-                               54, 0,
+                               Conf['ColumnarBoundary'], 0,
                                int(curses.COLS / 3 * 2 + 1))
     StatusWindow = stdscr.subwin(int(curses.LINES / 2),
-                                 54,
+                                 Conf['ColumnarBoundary'],
                                  int(curses.LINES / 2),
                                  int(curses.COLS / 3 * 2 + 1))
 
@@ -50,12 +51,16 @@ def main(stdscr):
     for w in AllWindows:
         w.box()
 
-    MapWindow.addstr(0,2," Map ")
-    InfoWindow.addstr(0,2," Enemy ")
-    StatusWindow.addstr(0,2," Your Fighter ")
+    MapWindow.addstr(0,2,Conf['MapWindowLabel'])
+    InfoWindow.addstr(0,2,Conf['TopRightWindowLabel'])
+    StatusWindow.addstr(0,2,Conf['BottomRightWindowLabel'])
 
-    a = ArenaMap(30,30,4,12,5)
-    
+    a = ArenaMap(Conf['MapX'],
+                 Conf['MapY'],
+                 Conf['RoomMinimumDimension'],
+                 Conf['RoomMaximumDimension'],
+                 Conf['MaximumNumberOfRooms'])
+
     P = PlayerEntity.PlayerEntity()
     RandomCell = random.choice(a.Rooms).RandomCellAddress()
     P.SetMapPositionWithTuple(RandomCell)
@@ -89,7 +94,7 @@ def main(stdscr):
     AT = ArenaTimer()
     while 1:
         c = stdscr.getch()
-        if c == ord('q'):
+        if c == ord(Conf['QuitKey']):
             break
         else:
             G._AIComponent.Step(G,P)
