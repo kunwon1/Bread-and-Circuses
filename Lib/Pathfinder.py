@@ -1,7 +1,7 @@
-from Exceptions import *
-
 import random
 from queue import PriorityQueue
+
+from pyarena.Exceptions import *
 
 def ShortestDistance(aX,aY,Points):
 

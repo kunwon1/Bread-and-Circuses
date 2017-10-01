@@ -1,7 +1,7 @@
 # Copyright (c) 2017 David J Moore
 
 from pyarena.Components.AIComponent import AIComponent
-from pyarena.lib import Pathfinder
+from pyarena.Lib.Pathfinder import Pathfinder
 
 class DumbAIComponent(AIComponent):
 

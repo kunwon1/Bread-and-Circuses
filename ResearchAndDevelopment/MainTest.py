@@ -4,23 +4,17 @@
 
 import os
 import sys
-
-sys.path.append(os.path.dirname(__file__))
-
 import time
 import curses
 import random
 from curses import wrapper
 
 from pyarena.ArenaMap import ArenaMap
+from pyarena.Entities import *
 from pyarena.ArenaTimer import ArenaTimer
+from pyarena.Components import *
 from pyarena.ArenaListener import ArenaListener
-
-from pyarena.lib.Pathfinder import Pathfinder
-
-from Components import *
-from Entities import *
-
+from pyarena.Lib.Pathfinder import Pathfinder
 
 MapWindow = None
 InfoWindow = None

@@ -6,7 +6,7 @@ from pyarena.ArenaCell import ArenaCell
 from pyarena.ArenaRoom import ArenaRoom
 from pyarena.ArenaCorridor import ArenaCorridor
 from pyarena.Exceptions import *
-from pyarena.lib.Pathfinder import Pathfinder
+from pyarena.Lib.Pathfinder import Pathfinder
 
 class ArenaMap(object):
 

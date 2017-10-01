@@ -1,6 +1,6 @@
 # Copyright (c) 2017 David J Moore
 
-import Components.Component as Component
+import pyarena.Components.Component as Component
 
 class FactionComponent(Component.Component):
 

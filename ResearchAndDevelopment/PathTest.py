@@ -5,16 +5,15 @@
 import time
 import random
 
-import ArenaMap
-import ArenaListener
+from pyarena.ArenaMap import ArenaMap 
+from pyarena.ArenaListener import ArenaListener
+from pyarena.Lib.Pathfinder import Pathfinder
+from pyarena.Components import *
+from pyarena.Entities import *
 
-from lib import Pathfinder
-
-from Components import *
-from Entities import *
-AL = ArenaListener.ArenaListener()
+AL = ArenaListener()
 def main():
-    a = ArenaMap.ArenaMap(30,30,4,12,5)
+    a = ArenaMap(30,30,4,12,5)
     
     P = PlayerEntity.PlayerEntity()
     RandomCell = random.choice(a.Rooms).RandomCellAddress()
@@ -28,7 +27,7 @@ def main():
     G.SetMapPositionWithTuple(RandomCell2)
     a.Entities.append(G)
 
-    finder = Pathfinder.Pathfinder(a.RawGrid,True)
+    finder = Pathfinder(a.RawGrid,True)
     try:
         finder.path(P.MapX,P.MapY,G.MapX,G.MapY)
     except (PathNotFoundException,PathfinderException) as e:

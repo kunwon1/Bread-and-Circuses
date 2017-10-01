@@ -1,6 +1,6 @@
 # Copyright (c) 2017 David J Moore
 
-from ArenaTimer import ArenaTimer
+from pyarena.ArenaTimer import ArenaTimer
 
 T = ArenaTimer()
 i = 0

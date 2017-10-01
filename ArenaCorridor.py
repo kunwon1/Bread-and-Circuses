@@ -1,8 +1,8 @@
 # Copyright (c) 2017 David J Moore
 
 import random
-from lib import Pathfinder
-from Exceptions import *
+from pyarena.Lib.Pathfinder import Pathfinder
+from pyarena.Exceptions import *
 
 def Approach(s,f):
     if f > s:
@@ -144,7 +144,7 @@ class ArenaCorridor(object):
 
     def IsConnected(self,aX,aY,bX,bY):
         #print('Doing %s,%s %s,%s' % (aX,aY,bX,bY))
-        finder = Pathfinder.Pathfinder(self.RawGrid)
+        finder = Pathfinder(self.RawGrid)
         try:
             finder.path(aX,aY,bX,bY)
         except (PathNotFoundException,PathfinderException) as e:
