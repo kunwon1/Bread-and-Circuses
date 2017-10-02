@@ -1,4 +1,4 @@
-# Copyright (c) RollDice('6d4')17 David J Moore
+# Copyright (c) 2017 David J Moore
 
 from pyarena.Dice import RollDice
 import pyarena.Components.Component as Component
