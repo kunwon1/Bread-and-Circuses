@@ -10,6 +10,7 @@ class Entity(persistent.Persistent):
         self._AIComponent = None
         self._PlayerComponent = None
         self._FactionComponent = None
+        self._WeaponComponent = None
         self.MapX = 0
         self.MapY = 0
         self.Glyph = None
@@ -29,15 +30,13 @@ class Entity(persistent.Persistent):
     def HasFactionComponent(self):
         return self._FactionComponent is not None
 
+    def HasWeaponComponent(self):
+        return self._WeaponComponent is not None
+
     def GetMapPositionTuple(self):
         return (self.MapX,self.MapY)
 
     def SetMapPositionWithTuple(self,tup):
         self.MapX = tup[0]
         self.MapY = tup[1]
-
-    def GetGlyph(self):
-        return self.Glyph
-
-
 

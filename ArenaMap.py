@@ -83,7 +83,7 @@ class ArenaMap(object):
             TempGrid.append(TempSubGrid)
             
         for e in self.Entities:
-            TempGrid[e.MapY][e.MapX] = e.GetGlyph()
+            TempGrid[e.MapY][e.MapX] = e.Glyph
         return '\n'.join(' '.join(str(x) for x in row) for row in TempGrid)
 
     def AllRoomsConnected(self):

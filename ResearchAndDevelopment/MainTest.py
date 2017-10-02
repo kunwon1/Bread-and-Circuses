@@ -75,6 +75,8 @@ def main(stdscr):
 
     for e in a.Entities:
         e._AIComponent = DumbAIComponent.DumbAIComponent(a.RawGrid)
+        e._StatsComponent = StatsComponent.StatsComponent()
+        e._WeaponComponent = WeaponComponent.WeaponComponent()
 
     finder = Pathfinder(a.RawGrid)
     try:

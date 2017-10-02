@@ -23,6 +23,11 @@ class DumbAIComponent(AIComponent):
         DMap = finder.DijkstraMap(self.TargetLoc[0],self.TargetLoc[1])
         best = [self.MyLoc]
         for N in Neighbors(self.MyLoc,self.MapGrid,True):
+            if N == self.TargetLoc:
+                if self.Myself.HasStatsComponent() \
+                 & self.Myself.HasWeaponComponent():
+                     self.TryToAttack(Myself,Target)
+                     break
             if DMap[N] < DMap[best[0]]:
                 best = [N]
             elif DMap[N] == DMap[best[0]]:
@@ -30,4 +35,19 @@ class DumbAIComponent(AIComponent):
         L = random.choice(best)
         self.Myself.SetMapPositionWithTuple(L)
 
-    
+    def TryToAttack(self,Myself,Target):
+        Stats = Myself._StatsComponent
+        Weap = Myself._WeaponComponent
+
+        EStats = Target._StatsComponent
+        EWeap = Target._WeaponComponent
+
+        # 10? ticks per game turn
+
+        # actions make someone busy for X ticks
+
+        # you can act again when you're not busy
+        # as long as you still have stamina
+
+        # if there's a tie, use initiative to break
+        #

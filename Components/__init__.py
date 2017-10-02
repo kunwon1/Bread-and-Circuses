@@ -2,5 +2,13 @@
 
 import pyarena.Components.Component
 
-__all__ = ["Component","AIComponent","PlayerComponent","RenderComponent","StatsComponent","FactionComponent","DumbAIComponent"]
+__all__ = ["Component",
+           "AIComponent",
+           "PlayerComponent",
+           "RenderComponent",
+           "StatsComponent",
+           "FactionComponent",
+           "DumbAIComponent",
+           "WeaponComponent"
+           ]
 
